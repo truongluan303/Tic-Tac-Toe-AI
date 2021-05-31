@@ -1,8 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-
 import static javax.swing.SwingConstants.CENTER;
+
 
 public class XO {
     private final int LIM = 3;
@@ -34,7 +34,7 @@ public class XO {
                 buttons[i][j].setVisible(true);
                 buttons[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 buttons[i][j].addActionListener(myListener());
-                buttons[i][j].setFont(new Font("Courier", Font.BOLD, 80));
+                buttons[i][j].setFont(new Font("Bradley Hand ITC", Font.BOLD | Font.ITALIC, 130));
                 buttons[i][j].setName(Integer.toString(count));
                 buttons[i][j].setText(" ");
                 buttons[i][j].setFocusPainted(false);
@@ -74,47 +74,60 @@ public class XO {
         for (c = 0; c < LIM; c++)
             if (buttons[y][c].getText().charAt(0) != player)
                 break;
-        if (c == LIM)
+        if (c == LIM) {
+            grayOutButtons();
+            for (int i = 0; i < LIM; i++)
+                buttons[y][i].setBackground(Color.GREEN);
             return true;
-
+        }
 
         // check column.
         for (c = 0; c < LIM; c++)
             if (buttons[c][x].getText().charAt(0) != player)
                 break;
-        if (c == LIM)
+        if (c == LIM) {
+            grayOutButtons();
+            for (int i = 0; i < LIM; i++)
+                buttons[i][x].setBackground(Color.GREEN);
             return true;
-
+        }
 
         // Check upward diagonal.
         if (x == y) {
             for (c = 0; c < LIM; c++)
                 if (buttons[c][c].getText().charAt(0) != player)
                     break;
-            if (c == LIM)
+            if (c == LIM) {
+                grayOutButtons();
+                for (int i = 0; i < LIM; i++) {
+                    buttons[i][i].setBackground(Color.GREEN);
+                }
                 return true;
+            }
         }
-
 
         // check downward diagonal
         for (c = 0; c < LIM; c++)
             if (buttons[c][LIM - c - 1].getText().charAt(0) != player)
                 break;
+        if (c == LIM) {
+            grayOutButtons();
+            for (int i = 0; i < LIM; i++)
+                buttons[i][LIM - i - 1].setBackground(Color.GREEN);
+        }
         return c == LIM;
     }
 
 
 
 
-    public ActionListener myListener() {
+    private ActionListener myListener() {
         return e -> {
             JButton buttonClicked = (JButton) e.getSource(); // get the button that was clicked
 
             if (!buttonClicked.isSelected()) {
                 buttonClicked.setText(String.valueOf(playerMark));
                 buttonClicked.setSelected(true);
-
-                char result = mark(playerMark, Integer.parseInt(buttonClicked.getName()));
 
                 if (playerMark == FIRST) {
                     buttonClicked.setBackground(Color.CYAN);
@@ -124,12 +137,13 @@ public class XO {
                     playerMark = FIRST;
                 }
 
+                char result = mark(playerMark, Integer.parseInt(buttonClicked.getName()));
+
                 if (result == FIRST || result == SECOND) {
                     resultMessage = createResultMessage();
                     resultMessage.setText("The winner is " + result);
                     disableButtons();
                     resultWindow.setVisible(true);
-
                     fileIO.write(result);
                 } else if (result == 'D') {
                     resultMessage = createResultMessage();
@@ -143,18 +157,21 @@ public class XO {
     }
 
 
-
-
-    public void disableButtons() {
+    private void grayOutButtons() {
         for (int i = 0; i < LIM; i++)
-            for (int j = 0; j < LIM; j++)
+            for (int j = 0; j < LIM; j++) 
+                buttons[i][j].setBackground(Color.lightGray);
+    }
+
+
+    private void disableButtons() {
+        for (int i = 0; i < LIM; i++)
+            for (int j = 0; j < LIM; j++) 
                 buttons[i][j].setEnabled(false);
     }
 
 
-
-
-    public JLabel createResultMessage() {
+    private JLabel createResultMessage() {
         JLabel resultMessage = new JLabel("", CENTER);
         resultMessage.setFont(new Font("Courier", Font.BOLD, 20));
         resultMessage.setHorizontalAlignment(JLabel.CENTER);
