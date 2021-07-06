@@ -7,7 +7,7 @@ public class myGUI extends JPanel {
     private final int LIM = 3;
     private XO myXO = new XO(this);
     private static CustomFrame f;
-    private static ImageIcon icon = new ImageIcon("src/icon.png");
+    private static ImageIcon icon = new ImageIcon("C:\Users\truon\Desktop\JavaProject\XO Game\src\icon.png");
 
     public myGUI() {
         setLayout(new GridLayout(LIM, LIM));
