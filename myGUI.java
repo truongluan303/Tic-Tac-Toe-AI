@@ -1,13 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
-import java.net.URL;
 
 
 public class myGUI extends JPanel {
     private final int LIM = 3;
     private XO myXO = new XO(this);
     private static CustomFrame f;
-    private static ImageIcon icon = new ImageIcon("C:\Users\truon\Desktop\JavaProject\XO Game\src\icon.png");
+    private static ImageIcon icon = new ImageIcon("C:\\Users\\truon\\Desktop\\JavaProject\\XO Game\\src\\icon.png");
+
 
     public myGUI() {
         setLayout(new GridLayout(LIM, LIM));
@@ -20,6 +20,7 @@ public class myGUI extends JPanel {
         runGame();
     }
 
+
     public void createResultBox(String message) {
         String display = message + "\nDo you want to replay?";
         int chosen = JOptionPane.showConfirmDialog(f, display,
@@ -31,12 +32,14 @@ public class myGUI extends JPanel {
             System.exit(0);
     }
 
+
     private static void runGame() {
         // Our game frame
         f = new CustomFrame("Tic Tac Toe Game",
                 500, 500, 500, 500, false, icon.getImage());
         f.getContentPane().add(new myGUI());     
     }
+
 
     private void chooseMode() {
         String message = "Please choose your mode";
@@ -45,6 +48,7 @@ public class myGUI extends JPanel {
             JOptionPane.QUESTION_MESSAGE, icon, options, options[0]);
         myXO.setMode(mode);
     }
+
 
     /////////////////////////
     ////   Custom Frame  ////
